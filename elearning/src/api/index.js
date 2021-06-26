@@ -4,17 +4,24 @@ function toObject(xml) {
     if (!xml)
         return
 
-    if (!xml.children?.length && xml.firstChild?.nodeValue)
+    if (xml.nodeName === 'answer')
+        console.log({answer: xml})
+    
+    if (!xml.children?.length && xml.firstChild?.nodeValue && !xml.attributes.length)
         return xml.firstChild.nodeValue
+
+    if (!xml.children?.length && xml.firstChild?.nodeValue)
+        return [].slice.call(xml.attributes).reduce((o, a) => ({...o, ['_' + a.name]: a.value}), {nodeValue: xml.firstChild.nodeValue})
 
     return xml.children && [].slice.call(xml.children).reduce(
         (o, c) => ({...o, [c.nodeName]: (o[c.nodeName] || []).concat(toObject(c))}), 
-        xml.attributes && [].slice.call(xml.attributes).reduce((o, a) => ({...o, [a.name]: a.value}), {}) || {})
+        xml.attributes && [].slice.call(xml.attributes).reduce((o, a) => ({...o, ['_' + a.name]: a.value}), {}) || {})
 }
 
 async function post(url, formData) {
     const res = await axios.post(url, formData)
     const data = new DOMParser().parseFromString(res.data, 'application/xml')
+    console.log({toObject, data})
     return toObject(data)
 } 
 
@@ -46,11 +53,21 @@ export default {
         return await post('/data/fetchData', formData)
     },
 
-    /*async fetchChallenge(challenge) {
+    async fetchChallenge(challenge) {
+        const store = (await import("@/store")).default;
 
+        const formData = new FormData()
+
+        formData.append("enc", store.state.enc)
+        formData.append("type", store.state.type)
+        formData.append("name", store.state.name)
+        formData.append("courseid", store.state.courseid)
+        formData.append("challenge", challenge)
+
+        return await post('/data/fetchChallenge', formData)
     },
 
-    async fetchGlossary() {
+    /*async fetchGlossary() {
 
     },
 

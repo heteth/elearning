@@ -1,9 +1,7 @@
 ﻿<template>
   <div v-if="root">
-    <div v-for="(structure, index) of root.structure" :key="index">
-      <div v-for="lev1 of structure.lev1" :key="lev1.ref">
-        <Scene :lev1="lev1.ref" :structure="structure"></Scene>
-      </div>
+    <div>
+      <Scene :lev1="root.structure[0].lev1[lev1Index]" @next-scene="next"></Scene>
     </div>
   </div>
 </template>
@@ -17,12 +15,19 @@ export default {
   
   components: {Scene},
   data: () => ({
+    lev1Index: 0,
     root: null,
   }),
 
   async beforeMount() {
     this.root = await api.fetchStructure()
   },
+  
+  methods: {
+    next() {
+      this.lev1Index++;
+    }
+  }
 }
 </script>
 
