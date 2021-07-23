@@ -70,19 +70,54 @@ export default {
     /*async fetchGlossary() {
 
     },
-
+    */
     async trackContent(id, ref) {
+        const store = (await import("@/store")).default;
 
+        const formData = new FormData()
+
+        formData.append("enc", store.state.enc)
+        formData.append("type", store.state.type)
+        formData.append("name", store.state.name)
+        formData.append("courseid", store.state.courseid)
+        formData.append("id", id)
+        formData.append("ref", ref)
+
+        return await post('/track/content', formData)
     },
-
+    
     async trackQuestion(id, ans, ref) {
+        const store = (await import("@/store")).default;
 
+        const formData = new FormData()
+
+        formData.append("enc", store.state.enc)
+        formData.append("type", store.state.type)
+        formData.append("name", store.state.name)
+        formData.append("courseid", store.state.courseid)
+        formData.append("id", id)
+        formData.append("ans", ans)
+        formData.append("ref", ref)
+
+        return await post('/track/question', formData)
     },
-
+    
     async trackChallenge(id, score, ref) {
+        const store = (await import("@/store")).default;
 
+        const formData = new FormData()
+
+        formData.append("enc", store.state.enc)
+        formData.append("type", store.state.type)
+        formData.append("name", store.state.name)
+        formData.append("courseid", store.state.courseid)
+        formData.append("id", id)
+        formData.append("score", score)
+        formData.append("ref", ref)
+
+        return await post('/track/challenge', formData)
     },
-
+/*
     async trackDownload(did, ref) {
 
     },*/

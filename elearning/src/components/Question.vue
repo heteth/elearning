@@ -15,13 +15,15 @@
           </div>
         </v-radio-group>
         <v-btn @click="submit" :disabled="chosen == null" v-if="!submitted">Submit</v-btn>
-        <v-btn v-if="submitted" @click="$emit('continue')">Continue</v-btn>
+        <v-btn v-if="submitted" @click="$emit('continue', chosen)">Continue</v-btn>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import api from '@/api'
+
 export default {
   name: "Question",
   
@@ -35,7 +37,9 @@ export default {
   }),
   
   methods: {
-    submit() {
+    async submit() {
+      await api.trackQuestion(this.question._id, this.chosen)
+      
       this.correct = this.chosen === this.question._correct ? this.question.correct[0] : null
       this.wrong = this.chosen !== this.question._correct ? this.question.wrong[0] : null
       this.submitted = true
