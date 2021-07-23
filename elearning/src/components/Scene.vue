@@ -1,6 +1,6 @@
 ﻿<template>
 <div v-if="root">
-  <v-tabs vertical v-model="tab">
+  <v-tabs v-model="tab">
     <v-tab-item
         v-for="lev2 of lev1.lev2"
         :key="lev2._ref"

@@ -4,6 +4,7 @@
       :show-arrows="false"
       :continuous="false"
       hide-delimiters
+      height="auto"
       v-model="slide"
   >
     <v-carousel-item

@@ -1,7 +1,7 @@
 ﻿<template>
   <div style="height: 100%; "><!--padding-bottom: 50px; for delimiters-->
     <div style="height: 100%; overflow: auto; padding-bottom: 50px">
-      <h1>{{content.ref}}#{{content.type}}</h1>
+      <h1>{{content._ref}}#{{content._type}}</h1>
       <h1>{{lev2.label[0]}}</h1>
       <h2>{{lev3.label[0]}}</h2>
       <div v-html="content.text && content.text[0]">
